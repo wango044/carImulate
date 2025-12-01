@@ -1,34 +1,69 @@
 package CarImulate;
+import java.util.*;
+public class cars {
+    public static void main(String[] args) {
 
-public class Car {
-    private int power;
-    private String color;
-    private String model;
+        String model;
+        String color;
+        int power;
+        Scanner scanner = new Scanner(System.in);
+        try{
+            System.out.println("Создайте машину:");
+            System.out.println();
+            System.out.println("1. Выберите модель:");
+            model = scanner.nextLine();
+            System.out.println("2. Выберите цвет:");
+            color = scanner.nextLine();
+            System.out.println("3. Выберите мощность( в л.с.)");
+            power = scanner.nextInt();
+            scanner.nextLine();
+            System.out.println("Выберите тип машины: ");
+            System.out.println("1 - Спорткар");
+            System.out.println("2 - Грузовик");
+            System.out.println("3 - Седан");
+            System.out.println("4 - Универсал");
+            System.out.println("5 - Купе");
+            int typeNumber = scanner.nextInt();
+            scanner.nextLine();
 
-    Car(int power, String color, String model){
-        this.power = power;
-        this.color = color;
-        this.model = model;
-    }
+            TypesOfCars selectedType = TypesOfCars.getByNumber(typeNumber);
 
-    public int getPower(){return power;}
-    public void setPower(int power){this.power = power;}
+            Car newCar = new Car(power, color, model, selectedType);
+            Garage garage = new Garage();
 
-    public String getColor(){return color;}
-    public void setColor(String color){this.color = color;}
 
-    public String getModel(){return model;}
-    public void setModel(String model){this.model = model;}
+            System.out.print("ВОТ ВАША МАШИНА - ");
 
-    @Override
-    public String toString() {
-        return " "
-                + "Модель - " + model
-                + ", Цвет - " + color
-                + ", Мощность - " + power;
-    }
+            newCar.showInfo();
 
-    public void showInfo(){
-        System.out.println(toString().toUpperCase());
+            System.out.println();
+
+            System.out.println("Выберите, что будет с вашей машиной:");
+            System.out.println("1 - Едет");
+            System.out.println("2 - Тормозит");
+            System.out.println("3 - Разобьётся");
+
+            int choise = scanner.nextInt();
+
+            switch (choise){
+                case 1:
+                    System.out.println("Едем 300 км/ч!!!");
+                    break;
+                case 2:
+                    System.out.println("Тормозим! Аккуратно.");
+                    break;
+                case 3:
+                    System.out.println("На СТО!");
+                    break;
+                default:
+                    System.out.println("Выберите число!");
+            }
+
+            garage.addCarToGarage(newCar);
+            garage.showGarage();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
